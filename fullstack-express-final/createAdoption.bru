@@ -1,0 +1,25 @@
+meta {
+  name: createAdoption
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:3000/api/adoptions/:uid/:pid
+  body: json
+  auth: none
+}
+
+params:path {
+  pid: 67318d1536f8ff06cf7f8d95
+  uid: 673186b527fe731f64864a9d
+}
+
+body:json {
+  {
+    "name":"buddy2",
+    "type":"fish",
+    "age": 99,
+    "birthDate": "2020-05-09"
+  }
+}

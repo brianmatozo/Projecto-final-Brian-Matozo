@@ -31,29 +31,43 @@ const getAllPets = async (_req: Request, res: Response) => {
   }
 };
 
+const getPetById = async (req: Request, res: any) => {
+  try {
+    const petId: Types.ObjectId = req.params.pid as unknown as Types.ObjectId;
+    const pet = await Pet.findById(petId);
+    if (!pet)
+      return res.status(404).send({ status: "error", error: "Pet not found" });
+    res.send({ status: "success", payload: pet });
+  } catch (error) {
+    res
+      .status(500)
+      .send({ status: "error", message: "Error fetching pet", error });
+  }
+};
+
 const createPet = async (req: Request, res: any) => {
-  const { name, type, age, birthDate, image } = req.body;
-  if (!name || !type || !birthDate)
+  const { name, type, age, birthDate } = req.body;
+  if (!name || !age || !type || !birthDate)
     return res
       .status(400)
       .send({ status: "error", error: "Incomplete values" });
-  const pet: PetType = getPetInputFrom({age, name, type, birthDate, image});
+  const pet: PetType = getPetInputFrom({ name, type, age, birthDate });
   const result = await Pet.create(pet);
   res.send({ status: "success", payload: result });
 };
 
 const updatePet = async (req: Request, res: Response) => {
-  const petUpdateBody:PetType = req.body; 
-  const petId:Types.ObjectId = req.params.pid as unknown as Types.ObjectId;
+  const petUpdateBody: PetType = req.body;
+  const petId: Types.ObjectId = req.params.pid as unknown as Types.ObjectId;
 
-  const result = await Pet.updateOne({_id: petId}, petUpdateBody);
-  
+  const result = await Pet.updateOne({ _id: petId }, petUpdateBody);
+
   res.send({ status: "success", message: "pet updated", payload: result });
 };
 
 const deletePet = async (req: Request, res: Response) => {
-  const petId:Types.ObjectId = req.params.pid as unknown as Types.ObjectId;
-  const result = await Pet.deleteOne({_id: petId});
+  const petId: Types.ObjectId = req.params.pid as unknown as Types.ObjectId;
+  const result = await Pet.deleteOne({ _id: petId });
   res.send({ status: "success", message: "pet deleted", payload: result });
 };
 
@@ -66,10 +80,8 @@ const createPetWithImage = async (req: Request, res: any) => {
       .send({ status: "error", error: "Incomplete values" });
   // console.log(file);
 
-  if(!file){
-    return res
-      .status(400)
-      .send({ status: "error", error: "No file uploaded" });
+  if (!file) {
+    return res.status(400).send({ status: "error", error: "No file uploaded" });
   }
 
   const pet: PetType = getPetInputFrom({
@@ -85,8 +97,9 @@ const createPetWithImage = async (req: Request, res: any) => {
 };
 export default {
   getAllPets,
+  getPetById,
   createPet,
   updatePet,
   deletePet,
-  createPetWithImage
+  createPetWithImage,
 };

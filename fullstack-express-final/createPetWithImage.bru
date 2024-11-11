@@ -1,0 +1,28 @@
+meta {
+  name: createPetWithImage
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:3000/api/pets/withimage
+  body: multipartForm
+  auth: none
+}
+
+body:json {
+  {
+    "name": "buddy",
+    "type": "fish",
+    "age": 99,
+    "birthDate": "2020-05-09"
+  }
+}
+
+body:multipart-form {
+  name: sisisi
+  type: perro
+  age: 12
+  birthDate: 2020-12-12
+  image: @file(C:\Users\Brian\Pictures\bash.png)
+}

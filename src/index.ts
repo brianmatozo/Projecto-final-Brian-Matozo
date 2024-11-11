@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import mocksRouter from "./routes/mocks.router";
 import adoptionsRouter from "./routes/adoption.router";
 import petsRouter from "./routes/pets.router";
+import usersRouter from "./routes/user.router";
 
 require("dotenv").config();
 
@@ -19,6 +20,7 @@ app.use(cookieParser());
 app.use("/api/mocks", mocksRouter);
 app.use("/api/adoptions", adoptionsRouter);
 app.use("/api/pets", petsRouter);
+app.use("/api/users", usersRouter);
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);

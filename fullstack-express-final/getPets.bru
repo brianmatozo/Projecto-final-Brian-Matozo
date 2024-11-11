@@ -1,0 +1,15 @@
+meta {
+  name: getPets
+  type: http
+  seq: 7
+}
+
+get {
+  url: http://localhost:3000/api/pets/:pid
+  body: none
+  auth: none
+}
+
+params:path {
+  pid: 
+}

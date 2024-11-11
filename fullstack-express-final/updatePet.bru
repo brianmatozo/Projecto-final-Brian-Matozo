@@ -1,0 +1,24 @@
+meta {
+  name: updatePet
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/api/pets/:pid
+  body: json
+  auth: none
+}
+
+params:path {
+  pid: 67318d1536f8ff06cf7f8d9d
+}
+
+body:json {
+  {
+    "name":"buddy2",
+    "type":"fish",
+    "age": 99,
+    "birthDate": "2020-05-09"
+  }
+}
