@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Pet from "../../models/Pets";
 import { PetType } from "../../types/types";
 import { Types } from "mongoose";
+import logger from "../../utils/logger";
 // import { faker } from "@faker-js/faker";
 
 const getPetInputFrom = (input: {
@@ -35,10 +36,14 @@ const getPetById = async (req: Request, res: any) => {
   try {
     const petId: Types.ObjectId = req.params.pid as unknown as Types.ObjectId;
     const pet = await Pet.findById(petId);
-    if (!pet)
+    if (!pet) {
+      logger.warning("Pet not found", petId);
       return res.status(404).send({ status: "error", error: "Pet not found" });
+    }
     res.send({ status: "success", payload: pet });
+    logger.debug("Pet fetched", pet);
   } catch (error) {
+    logger.error("Error fetching pet", error);
     res
       .status(500)
       .send({ status: "error", message: "Error fetching pet", error });

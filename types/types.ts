@@ -2,11 +2,14 @@
 
 import { Types } from "mongoose";
 
-interface UserType {
+interface UserDTO {
   username: string;
   email: string;
-  password: string;
   role: "user" | "admin";
+}
+
+interface UserType extends UserDTO {
+  password: string;
   pets: (PetType[] | Types.ObjectId)[];
 }
 
@@ -30,4 +33,4 @@ interface GenerateDataRequestBody {
   pets: number;
 }
 
-export { UserType, PetType, GenerateDataRequestBody, AdoptionType };
+export { UserType, PetType, GenerateDataRequestBody, AdoptionType, UserDTO };

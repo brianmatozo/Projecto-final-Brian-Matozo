@@ -1,0 +1,26 @@
+meta {
+  name: updateUser
+  type: http
+  seq: 11
+}
+
+put {
+  url: http://localhost:3000/api/users/:uid
+  body: json
+  auth: none
+}
+
+params:path {
+  uid: 67318617eb4d9470a8d29491
+}
+
+body:json {
+  {
+    "username": "brianmatozo",
+    "email": "brianmatozo@gmail.com",
+    "password": "$2b$10$ngJ3IS8qcAoKw7xF/BKp0.gXVapetKIJqfMmZCWR41NFIFXnid3Xy",
+    "role": "admin",
+    "pets": [],
+    "__v": 0
+  }
+}

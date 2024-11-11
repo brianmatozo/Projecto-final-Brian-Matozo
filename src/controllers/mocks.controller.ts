@@ -7,6 +7,7 @@ import Pet from "../../models/Pets";
 import { GenerateDataRequestBody, PetType, UserType } from "../../types/types";
 import { Request, Response } from "express";
 import { Types } from "mongoose";
+import logger from "../../utils/logger";
 
 const generateUsers = async (numUsers: number) => {
   const users: UserType[] = [];
@@ -63,6 +64,10 @@ export const generateData = async (req: Request, res: any) => {
     const generatedPets = generatePets(pets, userIds);
     const insertedPets = await Pet.insertMany(generatedPets);
 
+    logger.debug("datos generados exitosamente", {
+      users: userIds,
+      pets: insertedPets,
+    });
     return res.status(201).json({
       message: "Datos generados exitosamente",
       users: userIds,
@@ -76,7 +81,8 @@ export const generateData = async (req: Request, res: any) => {
 
 export const mockingUsers = async (_req: Request, res: Response) => {
   try {
-    const users = await generateUsers(50);
+    const users = await generateUsers(100);
+    // logger.debug("users", users);
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: "Error al generar usuarios", error });
@@ -85,7 +91,8 @@ export const mockingUsers = async (_req: Request, res: Response) => {
 
 export const mockingPets = async (_req: Request, res: Response) => {
   try {
-    const generatedPets = await generatePets(20);
+    const generatedPets = await generatePets(100);
+    // logger.debug("generatedPets", generatedPets);
     const insertedPets = await Pet.insertMany(generatedPets);
     res.json(insertedPets);
   } catch (error) {
