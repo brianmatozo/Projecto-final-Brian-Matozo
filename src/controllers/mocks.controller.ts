@@ -31,7 +31,10 @@ export const generatePets = (numPets: number): PetType[] => {
       name: faker.animal.dog(),
       type: "dog",
       age: faker.number.int({ min: 1, max: 15 }),
+      birthDate: faker.date.past(),
+      adopted: false,
       owner: faker.internet.username(),
+      image: faker.image.avatar(),
     });
   }
   return pets;

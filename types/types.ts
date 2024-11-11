@@ -10,7 +10,15 @@ interface PetType {
   name: string;
   type: string;
   age: number;
+  birthDate: Date;
+  adopted: boolean;
   owner: string;
+  image: string;
+}
+
+interface AdoptionType {
+  pet: PetType;
+  user: UserType;
 }
 
 interface GenerateDataRequestBody {
@@ -18,4 +26,4 @@ interface GenerateDataRequestBody {
   pets: number;
 }
 
-export { UserType, PetType, GenerateDataRequestBody };
+export { UserType, PetType, GenerateDataRequestBody, AdoptionType };

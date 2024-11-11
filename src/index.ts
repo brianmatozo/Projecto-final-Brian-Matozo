@@ -3,6 +3,7 @@ import conection from "../models/conection";
 import cookieParser from "cookie-parser";
 
 import mocksRouter from "./routes/mocks.router";
+import adoptionsRouter from "./routes/adoption.router";
 
 require("dotenv").config();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/mocks", mocksRouter);
+app.use("/api/adoptions", adoptionsRouter);
 
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);

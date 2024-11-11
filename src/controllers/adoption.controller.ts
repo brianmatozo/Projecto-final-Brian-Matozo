@@ -1,19 +1,16 @@
-import {
-  adoptionsService,
-  petsService,
-  usersService,
-} from "../services/index.js";
+import { Request, Response } from "express";
+import Adoption from "../../models/Adoption";
+import User from "../../models/Users";
+import Pet from "../../models/Pets";
 
-
-
-const getAllAdoptions = async (req, res) => {
-  const result = await adoptionsService.getAll();
+const getAllAdoptions = async (_req: Request, res: Response) => {
+  const result = await Adoption.find();
   res.send({ status: "success", payload: result });
 };
 
-const getAdoption = async (req, res) => {
+const getAdoption = async (req: Request, res: any) => {
   const adoptionId = req.params.aid;
-  const adoption = await adoptionsService.getBy({ _id: adoptionId });
+  const adoption = await Adoption.findById({ _id: adoptionId });
   if (!adoption)
     return res
       .status(404)
@@ -21,12 +18,12 @@ const getAdoption = async (req, res) => {
   res.send({ status: "success", payload: adoption });
 };
 
-const createAdoption = async (req, res) => {
+const createAdoption = async (req: Request, res: any) => {
   const { uid, pid } = req.params;
-  const user = await usersService.getUserById(uid);
+  const user = await User.findById(uid);
   if (!user)
     return res.status(404).send({ status: "error", error: "user Not found" });
-  const pet = await petsService.getBy({ _id: pid });
+  const pet = await Pet.findById({ _id: pid });
   if (!pet)
     return res.status(404).send({ status: "error", error: "Pet not found" });
   if (pet.adopted)
@@ -34,9 +31,9 @@ const createAdoption = async (req, res) => {
       .status(400)
       .send({ status: "error", error: "Pet is already adopted" });
   user.pets.push(pet._id);
-  await usersService.update(user._id, { pets: user.pets });
-  await petsService.update(pet._id, { adopted: true, owner: user._id });
-  await adoptionsService.create({ owner: user._id, pet: pet._id });
+  await User.updateOne(user._id, { pets: user.pets });
+  await Pet.updateOne(pet._id, { adopted: true, owner: user._id });
+  await Adoption.create({ owner: user._id, pet: pet._id });
   res.send({ status: "success", message: "Pet adopted" });
 };
 
