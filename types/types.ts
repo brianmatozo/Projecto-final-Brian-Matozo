@@ -1,9 +1,13 @@
+// src/types/types.ts
+
+import { Types } from "mongoose";
+
 interface UserType {
   username: string;
   email: string;
   password: string;
   role: "user" | "admin";
-  pets: PetType[];
+  pets: (PetType[] | Types.ObjectId)[];
 }
 
 interface PetType {
@@ -11,14 +15,14 @@ interface PetType {
   type: string;
   age: number;
   birthDate: Date;
-  adopted: boolean;
-  owner: string;
-  image: string;
+  adopted?: boolean;
+  owner?: Types.ObjectId | null;
+  image?: string;
 }
 
 interface AdoptionType {
-  pet: PetType;
-  user: UserType;
+  pet: PetType | Types.ObjectId;
+  user: UserType | Types.ObjectId;
 }
 
 interface GenerateDataRequestBody {
